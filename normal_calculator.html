@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Normal Calculator</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #1e1e1e;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .calculator {
+      background-color: #2d2d2d;
+      padding: 20px;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+      width: 320px;
+    }
+    .display {
+      width: 100%;
+      height: 60px;
+      background-color: #1e1e1e;
+      color: white;
+      font-size: 32px;
+      text-align: right;
+      padding: 10px;
+      box-sizing: border-box;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      border: none;
+    }
+    .keys {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+    button {
+      padding: 20px;
+      font-size: 18px;
+      border: none;
+      border-radius: 8px;
+      background-color: #3e3e3e;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+    button:hover {
+      background-color: #5e5e5e;
+    }
+    .equal {
+      background-color: #c6ff00;
+      color: black;
+      grid-column: span 2;
+    }
+  </style>
+</head>
+<body>
+  <div class="calculator">
+    <input type="text" class="display" id="display" readonly>
+    <div class="keys">
+      <button onclick="press('%')">%</button>
+      <button onclick="clearEntry()">CE</button>
+      <button onclick="clearDisplay()">C</button>
+      <button onclick="backspace()">⌫</button>
+
+      <button onclick="press('1/')">1/x</button>
+      <button onclick="press('x^2')">x²</button>
+      <button onclick="press('sqrt')">√</button>
+      <button onclick="press('/')">÷</button>
+
+      <button onclick="press('7')">7</button>
+      <button onclick="press('8')">8</button>
+      <button onclick="press('9')">9</button>
+      <button onclick="press('*')">×</button>
+
+      <button onclick="press('4')">4</button>
+      <button onclick="press('5')">5</button>
+      <button onclick="press('6')">6</button>
+      <button onclick="press('-')">−</button>
+
+      <button onclick="press('1')">1</button>
+      <button onclick="press('2')">2</button>
+      <button onclick="press('3')">3</button>
+      <button onclick="press('+')">+</button>
+
+      <button onclick="press('+/-')">+/-</button>
+      <button onclick="press('0')">0</button>
+      <button onclick="press('.')">.</button>
+      <button class="equal" onclick="calculate()">=</button>
+    </div>
+  </div>
+
+  <script>
+    let expression = '';
+    const display = document.getElementById('display');
+
+    function press(value) {
+      if (value === '+/-') {
+        expression = (-parseFloat(expression)).toString();
+      } else if (value === 'sqrt') {
+        expression = Math.sqrt(parseFloat(expression)).toString();
+      } else if (value === 'x^2') {
+        expression = Math.pow(parseFloat(expression), 2).toString();
+      } else if (value === '1/') {
+        expression = (1 / parseFloat(expression)).toString();
+      } else {
+        expression += value;
+      }
+      display.value = expression;
+    }
+
+    function clearDisplay() {
+      expression = '';
+      display.value = '';
+    }
+
+    function clearEntry() {
+      expression = '';
+      display.value = '';
+    }
+
+    function backspace() {
+      expression = expression.slice(0, -1);
+      display.value = expression;
+    }
+
+    function calculate() {
+      try {
+        expression = eval(expression).toString();
+        display.value = expression;
+      } catch (e) {
+        display.value = 'Error';
+        expression = '';
+      }
+    }
+  </script>
+</body>
+</html>
